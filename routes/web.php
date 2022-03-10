@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,4 +34,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
   });
 Auth::routes();
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
+  Route::resource('/products', DashboardProductController::class);
+});
+Auth::routes();
+
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
