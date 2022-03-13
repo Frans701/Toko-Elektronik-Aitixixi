@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Models;
+use App\Models\Products;
 
-use App\Models\ProductCategories;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Products extends Model
+class ProductCategories extends Model
 {
     use HasFactory;
 

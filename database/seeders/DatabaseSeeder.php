@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
+use App\Models\ProductCategories;
 use App\Models\Products;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,6 +25,18 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('krisna123'),
             'admin_address' => 'Jl. Raya Padang Luwih',
             'phone' => '089681437135'
+        ]);
+
+        ProductCategories::create([
+            'category_name' => 'kendaraan'
+        ]);
+
+        ProductCategories::create([
+            'category_name' => 'makanan'
+        ]);
+
+        ProductCategories::create([
+            'category_name' => 'minuman'
         ]);
 
         Products::factory(20)->create();

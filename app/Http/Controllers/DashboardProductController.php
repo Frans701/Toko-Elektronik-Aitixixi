@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductCategories;
+use App\Models\ProductCategoriesDetails;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use Illuminate\Support\Str;
@@ -19,7 +21,7 @@ class DashboardProductController extends Controller
             "title" => "All Posts",
             // "posts" => Post::all()
             "active" => "Posts",
-            "products" => Products::all()
+            "details" => ProductCategoriesDetails::get()
         ]);
 
     }
@@ -32,7 +34,8 @@ class DashboardProductController extends Controller
     public function create()
     {
         return view('admin.create', [
-            'title' => 'Created'
+            'title' => 'Created',
+            'categories' => ProductCategories::all()
         ]);
     }
 
@@ -46,10 +49,20 @@ class DashboardProductController extends Controller
     {
         $validateData = $request->validate([
             'product_name' => 'required|max:100',
-            'description' => 'required'
+            'description' => 'required',
+            'category_id' => 'required'
         ]);
 
-        Products::create($validateData);
+        $products = Products::create($validateData);
+        
+        $lastIdProduct = $products->id;
+
+        $validateDetails = ([
+            'product_id' => $lastIdProduct, 
+            'category_id' => $request->input('category_id')
+        ]);
+
+        ProductCategoriesDetails::create($validateDetails);
 
         return redirect('/admin/products')->with('success', 'new post has been added!');
     }

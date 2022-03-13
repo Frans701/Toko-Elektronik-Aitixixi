@@ -31,7 +31,7 @@
                                 <small>
                                     By <a href="/authors/{{ $product->product_name }}"
                                         class="text-decoration-none">{{ $product->product_name }}</a>
-                                    {{ $product->created_at->diffForHumans() }}
+                                    {{-- {{ $product->created_at->diffForHumans() }} --}}
                                 </small>
                             </div>
                             <p class="card-text">{{ $product->excerpt }}</p>

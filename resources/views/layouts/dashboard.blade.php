@@ -11,6 +11,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <title>{{ $title }}</title>
 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{{ asset('js/fontawesome-free/css/all.min.css') }}">
   <!-- Theme style -->

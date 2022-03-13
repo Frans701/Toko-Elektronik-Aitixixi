@@ -27,17 +27,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($products as $product)
+                                @foreach ($details as $detail)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $product->product_name }}</td>
-                                    <td>{{ $product->product_name }}</td>
+                                    <td>{{ $detail->product->product_name }}</td>
+                                    <td>{{ $detail->category->category_name }}</td>
                                     <td>
-                                        <a href="/admin/products/{{ $product->id }}"
+                                        <a href="/admin/products/{{ $detail->product->id }}"
                                             class="badge bg-info nav-link">Detail</a>
-                                        <a href="/admin/products/{{ $product->id }}/edit"
+                                        <a href="/admin/products/{{ $detail->product->id }}/edit"
                                             class="badge bg-warning nav-link">Edit</a>
-                                            <form action="/admin/products/{{ $product->id }}" method="post" class="d-inline">
+                                            <form action="/admin/products/{{ $detail->product->id }}" method="post" class="d-inline">
                                               @method('delete')
                                               @csrf
                                               <button class="badge bg-danger nav-link border-0" onclick="return confirm('aru you sure')">Delate</button>
