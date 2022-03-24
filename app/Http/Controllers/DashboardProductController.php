@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductCategories;
 use App\Models\ProductCategoriesDetails;
+use App\Models\ProductImages;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use Illuminate\Support\Str;
@@ -21,7 +22,7 @@ class DashboardProductController extends Controller
             "title" => "All Posts",
             // "posts" => Post::all()
             "active" => "Posts",
-            "details" => ProductCategoriesDetails::get()
+            "products" => Products::get()
         ]);
 
     }
@@ -47,10 +48,14 @@ class DashboardProductController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->file('image_name')->store('post-images');
+
         $validateData = $request->validate([
             'product_name' => 'required|max:100',
-            'description' => 'required',
-            'category_id' => 'required'
+            'price' => 'required',
+            'stock' => 'required',
+            'weight' => 'required',
+            'description' => 'required'
         ]);
 
         $products = Products::create($validateData);
@@ -64,6 +69,21 @@ class DashboardProductController extends Controller
 
         ProductCategoriesDetails::create($validateDetails);
 
+        if($request->file('image_name')){
+
+        }
+
+        $validateImages = ([
+            'product_id' => $lastIdProduct, 
+        ]);
+
+        if($request->file('image_name')){
+            $validateImages['image_name'] = $request->file('image_name')->store('post-images');
+        }
+
+
+        ProductImages::create($validateImages);
+
         return redirect('/admin/products')->with('success', 'new post has been added!');
     }
 
@@ -73,12 +93,13 @@ class DashboardProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Products $product)
+    public function show($id)
     {
         return view('admin.product', [
             'title' => 'product',
-            'product' => $product
+            'product' => Products::findOrFail($id),
         ]);
+
     }
 
     /**
@@ -91,7 +112,8 @@ class DashboardProductController extends Controller
     {
         return view('admin.edit', [
             'product' => $product,
-            'title' => 'Edit Product'
+            'title' => 'Edit Product',
+            'categories' => ProductCategories::all()
         ]);
     }
 
@@ -102,16 +124,29 @@ class DashboardProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Products $product)
+    public function update(Request $request)
     {
+
+        // dd($request->category_id);
         $rules = [
             'product_name' => 'required|max:100',
+            'price' => 'required',
+            'stock' => 'required',
+            'weight' => 'required',
             'description' => 'required'
         ];
 
+        $prod_id = $request->product_id;
+
         $validateData = $request->validate($rules);
 
-        Products::where('id', $product->id)->update($validateData);
+        Products::where('id', $prod_id)->update($validateData);
+
+        $validateDetails = ([
+            'category_id' => $request->category_id
+        ]);
+
+        ProductCategoriesDetails::where('product_id', '=', $prod_id)->update($validateDetails);
 
         return redirect('/admin/products')->with('success', 'Update!');
     }
@@ -122,9 +157,10 @@ class DashboardProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products $product)
+    public function destroy($id)
     {
-        Products::destroy($product->id);
+        $product = Products::find($id); 
+        $product->delete();
 
         return redirect('/admin/products')->with('success', 'Post has been added!');
     }

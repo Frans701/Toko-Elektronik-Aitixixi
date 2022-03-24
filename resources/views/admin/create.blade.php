@@ -29,22 +29,42 @@
                   @enderror
                 </div>
                 <div class="mb-3">
+                  <label for="price" class="form-label">Price</label>
+                  <input placeholder="Rp. 10xx" type="text" class="form-control @error('price') is-invalid @enderror" id="price" name="price" value="{{ old('price') }}">
+                  @error('price')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+                </div>
+                <div class="mb-3">
+                  <label for="stock" class="form-label">Stock</label>
+                  <input placeholder="1xx" type="text" class="form-control @error('stock') is-invalid @enderror" id="stock" name="stock" value="{{ old('stock') }}">
+                  @error('stock')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+                </div>
+                <div class="mb-3">
+                  <label for="weight" class="form-label">Weight</label>
+                  <input placeholder="1xx kg" type="text" class="form-control @error('weight') is-invalid @enderror" id="weight" name="weight" value="{{ old('weight') }}">
+                  @error('weight')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+                </div>
+                <div class="mb-3">
                   <label for="category" class="form-label">Category</label>
                   <select class="form-select" name="category_id">
                       @foreach ($categories as $category)
-                      @if (old('category_id') == $category->id)
+                      @if (old('category_id') === $category->id)
                         <option value="{{ $category->id }}" selected> {{ $category->category_name }} </option>
                         @else
                         <option value="{{ $category->id }}"> {{ $category->category_name }} </option>
                       @endif
-        
                       @endforeach
                   </select>
                 </div>
                 <div class="mb-3">
-                    <label for="image" name="m" class="form-label">Post Image</label>
-                    <input class="form-control  @error('image') is-invalid @enderror" type="file" id="image" name="image">
-                    @error('image')
+                    <label for="image_name" class="form-label">Post Image</label>
+                    <input class="form-control  @error('image_name') is-invalid @enderror" type="file" id="image_name" name="image_name">
+                    @error('image_name')
                     <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
                   </div>

@@ -20,24 +20,28 @@
                         <table class="table table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Title</th>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Stock</th>
                                     <th scope="col">Category</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($details as $detail)
+                                @foreach ($products as $product)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $detail->product->product_name }}</td>
-                                    <td>{{ $detail->category->category_name }}</td>
+                                    <td>{{ $product->product_name }}</td>
+                                    <td>{{ $product->price }}</td>
+                                    <td>{{ $product->stock }}</td>
+                                    <td>{{ $product->categories->pluck('category_name')->implode(',') }}</td>
                                     <td>
-                                        <a href="/admin/products/{{ $detail->product->id }}"
+                                        <a href="/admin/products/{{ $product->id }}"
                                             class="badge bg-info nav-link">Detail</a>
-                                        <a href="/admin/products/{{ $detail->product->id }}/edit"
+                                        <a href="/admin/products/{{ $product->id }}/edit"
                                             class="badge bg-warning nav-link">Edit</a>
-                                            <form action="/admin/products/{{ $detail->product->id }}" method="post" class="d-inline">
+                                            <form action="/admin/products/{{ $product->id }}" method="post" class="d-inline">
                                               @method('delete')
                                               @csrf
                                               <button class="badge bg-danger nav-link border-0" onclick="return confirm('aru you sure')">Delate</button>

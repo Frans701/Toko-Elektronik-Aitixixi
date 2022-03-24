@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductCategoriesDetails;
+use App\Models\ProductImages;
 use Illuminate\Http\Request;
 use App\Models\Products;
 
@@ -14,27 +15,7 @@ class DashboardController extends Controller
             "title" => "All Products",
             // "posts" => Post::all()
             "active" => "Posts",
-            "products" => ProductCategoriesDetails::all()
+            "products" => Products::all()   
         ]);
     }
-
-    // public function products() {
-    //     return view('admin.products', [
-    //         "title" => "All Posts",
-    //         // "posts" => Post::all()
-    //         "active" => "Posts",
-    //         "products" => Products::all()
-    //     ]);
-    // }
-
-    // public function index()
-    // {
-
-    //     return view('products', [
-    //         "title" => "All Posts",
-    //         // "posts" => Post::all()
-    //         "active" => "Posts",
-    //         "posts" => Products::latest()->filter(request(['search', 'category']))->get()
-    //     ]);
-    // }
 }

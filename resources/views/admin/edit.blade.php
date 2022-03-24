@@ -24,6 +24,8 @@
                         <form method="post" action="/admin/products/{{ $product->id }}">
                             @method('put')
                             @csrf
+                            <input type="hidden" class="form-control" id="product_id"
+                                    name="product_id" autofocus value="{{ $product->id }}">
                             <div class="mb-3">
                                 <label for="product_name" class="form-label">Product name</label>
                                 <input type="text" class="form-control @error('product_name') is-invalid @enderror" id="product_name"
@@ -32,27 +34,40 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            {{-- <div class="mb-3">
-                                <label for="slug" class="form-label">Slug</label>
-                                <input type="text" class="form-control @error('title') is-invalid @enderror" id="slug"
-                                    name="slug" value="{{ old('title', $product->slug) }}">
-                                @error('slug')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Price</label>
+                                <input placeholder="Rp. 10xx" type="text" class="form-control @error('price') is-invalid @enderror" id="price" name="price" value="{{ old('price', $product->price) }}">
+                                @error('price')
+                                  <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                            </div> --}}
-                            {{-- <div class="mb-3">
+                              </div>
+                              <div class="mb-3">
+                                <label for="stock" class="form-label">Stock</label>
+                                <input placeholder="1xx" type="text" class="form-control @error('stock') is-invalid @enderror" id="stock" name="stock" value="{{ old('stock', $product->stock) }}">
+                                @error('stock')
+                                  <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                              </div>
+                              <div class="mb-3">
+                                <label for="weight" class="form-label">Weight</label>
+                                <input placeholder="1xx kg" type="text" class="form-control @error('weight') is-invalid @enderror" id="weight" name="weight" value="{{ old('weight', $product->weight) }}">
+                                @error('weight')
+                                  <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                              </div>
+                              <div class="mb-3">
                                 <label for="category" class="form-label">Category</label>
                                 <select class="form-select" name="category_id">
                                     @foreach ($categories as $category)
-                                    @if (old('category_id', $category->id) == $category->id)
-                                    <option value="{{ $category->id }}" selected> {{ $category->name }} </option>
-                                    @else
-                                    <option value="{{ $category->id }}"> {{ $category->name }} </option>
+                                    @if (old('category_id', $category->id) === $category->id)
+                                      <option value="{{ $category->id }}" selected> {{ $category->category_name }} </option>
+                                      @else
+                                      <option value="{{ $category->id }}"> {{ $category->category_name }} </option>
                                     @endif
-
+                      
                                     @endforeach
                                 </select>
-                            </div> --}}
+                              </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
                                 @error('description')
