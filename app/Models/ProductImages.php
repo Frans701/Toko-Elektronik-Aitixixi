@@ -11,6 +11,10 @@ class ProductImages extends Model
 
     protected $guarded = ['id'];
 
+    public function setFilenamesAttribute($value){
+        $this->attributes['image_name'] = json_encode($value);
+    }
+
     public function product()
     {
         return $this->belongsTo(Products::class);

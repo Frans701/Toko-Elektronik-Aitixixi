@@ -39,6 +39,18 @@ class DatabaseSeeder extends Seeder
             'category_name' => 'minuman'
         ]);
 
-        Products::factory(20)->create();
+        ProductCategories::create([
+            'category_name' => 'pakaian'
+        ]);
+
+        ProductCategories::create([
+            'category_name' => 'celana'
+        ]);
+
+        ProductCategories::create([
+            'category_name' => 'prabotan'
+        ]);
+
+        // Products::factory(20)->create();
     }
 }

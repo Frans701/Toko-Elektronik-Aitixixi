@@ -57,14 +57,13 @@
                               </div>
                               <div class="mb-3">
                                 <label for="category" class="form-label">Category</label>
-                                <select class="form-select" name="category_id">
+                                <select class="form-select categories" name="categories[]" multiple='multiple'>
                                     @foreach ($categories as $category)
                                     @if (old('category_id', $category->id) === $category->id)
                                       <option value="{{ $category->id }}" selected> {{ $category->category_name }} </option>
                                       @else
                                       <option value="{{ $category->id }}"> {{ $category->category_name }} </option>
                                     @endif
-                      
                                     @endforeach
                                 </select>
                               </div>
@@ -93,4 +92,36 @@
     })
 
 </script>
+@endsection
+
+@section('script')
+
+@php
+  $category_ids = [];    
+@endphp
+
+@foreach ($product->categories as $category)
+    @php
+        array_push($category_ids, $category->id);
+    @endphp
+@endforeach
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+  document.addEventListener('trix-file-accept', function(e){
+      e.preventDefault();
+  })
+
+  $(document).ready(function() {
+    $('.categories').select2({
+      theme: "bootstrap-5",
+    });
+    data = [];
+    data = <?php echo json_encode($category_ids); ?>;
+    $('.categories').val(data);
+    $('.categories').trigger('change');
+  });
+
+</script>
+
 @endsection

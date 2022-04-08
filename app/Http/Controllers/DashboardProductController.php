@@ -50,7 +50,7 @@ class DashboardProductController extends Controller
     {
         // return $request->file('image_name')->store('post-images');
 
-        $validateData = $request->validate([
+        $request->validate([
             'product_name' => 'required|max:100',
             'price' => 'required',
             'stock' => 'required',
@@ -58,31 +58,49 @@ class DashboardProductController extends Controller
             'description' => 'required'
         ]);
 
-        $products = Products::create($validateData);
+        $products = Products::create([
+            'product_name' => $request->product_name,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'weight' => $request->weight,
+            'description' => $request->description,
+        ]);
+
+        // $products->categories()->attach($request->categories);
+
+        
+            
+        foreach ($request->categories as $key => $value) {
+            ProductCategoriesDetails::create([
+                'product_id' => $products->id,
+                'category_id' => $value
+            ]);
+        }
         
         $lastIdProduct = $products->id;
 
-        $validateDetails = ([
-            'product_id' => $lastIdProduct, 
-            'category_id' => $request->input('category_id')
-        ]);
+        // $validateDetails = ([
+        //     'product_id' => $lastIdProduct, 
+        //     'categories' => $request->input('category_id')
+        // ]);
 
-        ProductCategoriesDetails::create($validateDetails);
+        // ProductCategoriesDetails::create($validateDetails);
 
-        if($request->file('image_name')){
+        // $validateImages = ([
+        //     'product_id' => $lastIdProduct, 
+        // ]);
 
+
+
+        if($request->file('images_name')){
+            foreach ($request->file('images_name') as $key => $value) {
+                ProductImages::create([
+                    'product_id' => $lastIdProduct, 
+                    'image_name' => $value->store('post-images')
+                ]);
+            }
+            // $validateImages['image_name'] = $request->file('image_name')->store('post-images');
         }
-
-        $validateImages = ([
-            'product_id' => $lastIdProduct, 
-        ]);
-
-        if($request->file('image_name')){
-            $validateImages['image_name'] = $request->file('image_name')->store('post-images');
-        }
-
-
-        ProductImages::create($validateImages);
 
         return redirect('/admin/products')->with('success', 'new post has been added!');
     }
@@ -124,7 +142,7 @@ class DashboardProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
 
         // dd($request->category_id);
@@ -140,15 +158,13 @@ class DashboardProductController extends Controller
 
         $validateData = $request->validate($rules);
 
+        $product = Products::find($id);
         Products::where('id', $prod_id)->update($validateData);
+        $product->categories()->sync($request->categories);
+        $product->save();
 
-        $validateDetails = ([
-            'category_id' => $request->category_id
-        ]);
+        return redirect('/admin/products')->with('success', 'update post has been added!');
 
-        ProductCategoriesDetails::where('product_id', '=', $prod_id)->update($validateDetails);
-
-        return redirect('/admin/products')->with('success', 'Update!');
     }
 
     /**

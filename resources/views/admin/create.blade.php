@@ -51,7 +51,7 @@
                 </div>
                 <div class="mb-3">
                   <label for="category" class="form-label">Category</label>
-                  <select class="form-select" name="category_id">
+                  <select class="form-select categories" name="categories[]" multiple="multiple">
                       @foreach ($categories as $category)
                       @if (old('category_id') === $category->id)
                         <option value="{{ $category->id }}" selected> {{ $category->category_name }} </option>
@@ -62,11 +62,25 @@
                   </select>
                 </div>
                 <div class="mb-3">
-                    <label for="image_name" class="form-label">Post Image</label>
+                    {{-- <label for="image_name" class="form-label">Post Image</label>
                     <input class="form-control  @error('image_name') is-invalid @enderror" type="file" id="image_name" name="image_name">
                     @error('image_name')
                     <div class="invalid-feedback">{{ $message }}</div>
-                  @enderror
+                    @enderror --}}
+                    <div class="input-group realprocode control-group lst increment" >
+                      <input type="file" name="images_name[]" class="myfrm form-control">
+                      <div class="input-group-btn"> 
+                        <button class="btn btn-success" type="button"> <i class="fldemo glyphicon glyphicon-plus"></i>Add</button>
+                      </div>
+                    </div>
+                    <div class="clone hide">
+                      <div class="realprocode control-group lst input-group" style="margin-top:10px">
+                        <input type="file" name="images_name[]" class="myfrm form-control">
+                        <div class="input-group-btn"> 
+                          <button class="btn btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 <div class="mb-3">
                   <label for="description" class="form-label">Description</label>
@@ -87,9 +101,33 @@
     </div>
   </div>
 </div>
+@endsection
+
+@section('script')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".btn-success").click(function(){ 
+        var lsthmtl = $(".clone").html();
+        $(".increment").after(lsthmtl);
+    });
+    $("body").on("click",".btn-danger",function(){ 
+        $(this).parents(".realprocode").remove();
+    });
+  });
+</script>
+
 <script>
   document.addEventListener('trix-file-accept', function(e){
       e.preventDefault();
   })
+
+  $(document).ready(function() {
+    $('.categories').select2({
+      theme: "bootstrap-5",
+    });
+  });
+
 </script>
 @endsection
