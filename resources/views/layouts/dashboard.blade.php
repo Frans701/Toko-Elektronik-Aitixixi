@@ -26,6 +26,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.2.0/dist/select2-bootstrap-5-theme.min.css" />
   
+  <style>
+      .slider-img{
+        width: 100%;
+        height: 300px;
+        object-fit: cover;  
+      }
+
+      .img-box{
+        width: 100%;
+        height: 300px;
+        object-fit: cover; 
+      }
+
+      .img-index{
+        width: 100px;
+        height: 70px;
+        object-fit: cover; 
+      }
+  </style>
 
   <link rel="stylesheet" type="text/css" href="/css/trix.css">
   <script type="text/javascript" src="/js/trix.js"></script>

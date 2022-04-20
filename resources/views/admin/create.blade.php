@@ -6,7 +6,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title"><strong>Produk</strong></h4>
+          <h4 class="card-title"><strong>Category</strong></h4>
           <div class="card-tools">
             {{-- <a href="/produk" class="btn btn-sm btn-danger">
               More
@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="container-fluid">
-          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom col-lg-8">
             <h1 class="h2">Create new Product</h1>
         </div>
         
@@ -60,28 +60,10 @@
                       @endif
                       @endforeach
                   </select>
+                  @error('categories')
+                    <p class="text-danger">{{ $message }}</p>
+                  @enderror
                 </div>
-                <div class="mb-3">
-                    {{-- <label for="image_name" class="form-label">Post Image</label>
-                    <input class="form-control  @error('image_name') is-invalid @enderror" type="file" id="image_name" name="image_name">
-                    @error('image_name')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror --}}
-                    <div class="input-group realprocode control-group lst increment" >
-                      <input type="file" name="images_name[]" class="myfrm form-control">
-                      <div class="input-group-btn"> 
-                        <button class="btn btn-success" type="button"> <i class="fldemo glyphicon glyphicon-plus"></i>Add</button>
-                      </div>
-                    </div>
-                    <div class="clone hide">
-                      <div class="realprocode control-group lst input-group" style="margin-top:10px">
-                        <input type="file" name="images_name[]" class="myfrm form-control">
-                        <div class="input-group-btn"> 
-                          <button class="btn btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 <div class="mb-3">
                   <label for="description" class="form-label">Description</label>
                   @error('description')
@@ -90,7 +72,7 @@
                   <input id="description" type="hidden" name="description" value="{{ old('description') }}">
                   <trix-editor input="description"></trix-editor>
                 </div>
-                <button type="submit" class="btn btn-primary mb-3">Create Post</button>
+                <button type="submit" class="btn btn-primary mb-3">Create Product</button>
               </form>
         </div>
         
@@ -107,15 +89,6 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $(".btn-success").click(function(){ 
-        var lsthmtl = $(".clone").html();
-        $(".increment").after(lsthmtl);
-    });
-    $("body").on("click",".btn-danger",function(){ 
-        $(this).parents(".realprocode").remove();
-    });
-  });
 </script>
 
 <script>

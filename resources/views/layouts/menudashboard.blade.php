@@ -26,26 +26,20 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="/merk" class="nav-link">
+          <a href="/admin/category" class="nav-link">
             <i class="far fa-circle nav-icon"></i>
-            <p>Merk</p>
+            <p>Category</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="/satuan" class="nav-link">
+          <a href="/admin/courier" class="nav-link">
             <i class="far fa-circle nav-icon"></i>
-            <p>Satuan</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="/supplier" class="nav-link">
-            <i class="far fa-circle nav-icon"></i>
-            <p>Supplier</p>
+            <p>Couriers</p>
           </a>
         </li>
       </ul>
     </li>
-<li class="nav-item has-treeview">
+    <li class="nav-item has-treeview">
       <a href="#" class="nav-link">
         <i class="nav-icon fas fa-shopping-cart"></i>
         <p>

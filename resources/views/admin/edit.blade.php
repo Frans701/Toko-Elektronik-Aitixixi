@@ -16,12 +16,12 @@
                 </div>
                 <div class="container-fluid">
                     <div
-                        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        class="d-flex justify-content-between col-lg-8 flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h1 class="h2">Edit new product</h1>
                     </div>
 
                     <div class="col-lg-8">
-                        <form method="post" action="/admin/products/{{ $product->id }}">
+                        <form method="post" action="/admin/products/{{ $product->id }}" enctype="multipart/form-data">
                             @method('put')
                             @csrf
                             <input type="hidden" class="form-control" id="product_id"
@@ -67,6 +67,13 @@
                                     @endforeach
                                 </select>
                               </div>
+                              <div class="mb-3">
+                                {{-- <label for="image_name" class="form-label">Post Image</label>
+                                <input class="form-control  @error('image_name') is-invalid @enderror" type="file" id="image_name" name="image_name">
+                                @error('image_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror --}} 
+                              </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
                                 @error('description')
@@ -75,7 +82,7 @@
                                 <input id="description" type="hidden" name="description" value="{{ old('description', $product->description) }}">
                                 <trix-editor input="description"></trix-editor>
                             </div>
-                            <button type="submit" class="btn btn-primary mb-3">Edit Post</button>
+                            <button type="submit" class="btn btn-primary mb-3">Edit Product</button>
                         </form>
                     </div>
 
@@ -120,7 +127,45 @@
     data = <?php echo json_encode($category_ids); ?>;
     $('.categories').val(data);
     $('.categories').trigger('change');
+    $(".btn-success").click(function(){ 
+        var lsthmtl = $(".clone").html();
+        $(".increment").after(lsthmtl);
+    });
+    $("body").on("click",".btn-danger",function(){ 
+        $(this).parents(".sub-clone").remove();
+    });
   });
+
+  function previewImage(){
+    const image_name = document.querySelector('#image_name');
+    const imgPreview = document.querySelector('.img-preview');
+
+    imgPreview.style.display = 'block';
+
+    const oFReader = new FileReader();
+
+    oFReader.readAsDataURL(image_name.files[0]);
+
+    oFReader.onload = function(oFREvent){
+      imgPreview.src = oFREvent.target.result;
+    }
+  }
+
+  function previewImageClone(){
+    const image_name_clone = document.querySelector('#image_name_clone');
+    const imgPreviewClone = document.querySelector('.img-preview-clone');
+
+    imgPreviewClone.style.display = 'block';
+    imgPreviewClone.style.marginTop = '16px';
+
+    const oFReader = new FileReader();
+
+    oFReader.readAsDataURL(image_name_clone.files[0]);
+
+    oFReader.onload = function(oFREvent){
+      imgPreviewClone.src = oFREvent.target.result;
+    }
+  }
 
 </script>
 

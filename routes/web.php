@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\DashboardImagesController;
 use App\Http\Controllers\DashboardProductController;
+use App\Http\Controllers\DashboardCategoryController;
+use App\Http\Controllers\DashboardCourierController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,7 +42,20 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
 });
 Auth::routes();
 
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
+  Route::resource('/images', DashboardImagesController::class);
+});
+Auth::routes();
 
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
+  Route::resource('/category', DashboardCategoryController::class);
+});
+Auth::routes();
+
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
+  Route::resource('/courier', DashboardCourierController::class);
+});
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

@@ -52,5 +52,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Products::factory(20)->create();
+        $this->call(CouriersTableSeeder::class);
     }
 }

@@ -41,10 +41,12 @@
                                             class="badge bg-info nav-link">Detail</a>
                                         <a href="/admin/products/{{ $product->id }}/edit"
                                             class="badge bg-warning nav-link">Edit</a>
+                                        <a href="/admin/images/{{ $product->id }}"
+                                            class="badge bg-success nav-link">Image</a>
                                             <form action="/admin/products/{{ $product->id }}" method="post" class="d-inline">
                                               @method('delete')
                                               @csrf
-                                              <button class="badge bg-danger nav-link border-0" onclick="return confirm('aru you sure')">Delate</button>
+                                              <button class="badge bg-danger nav-link border-0" onclick="return confirm('aru you sure')">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
