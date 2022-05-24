@@ -74,16 +74,29 @@ class TransactionDetailController extends Controller
         
         $transaksi->update($data);
 
-        $admin = Admin::find(1);
-        $data = [
+        if($request->status == 'canceled'){
+            $admin = Admin::find(1);
+            $data = [
            'nama'=> Auth::user()->user_name,
-           'message'=>'Barang Telah Sampai ke Pelanggan!',
+           'message'=>'Pesanan dibatalkan!',
            'id'=> $request->id,
            'category' => 'canceled'
-       ];
-       $data_encode = json_encode($data);
-       $admin->createNotif($data_encode);
-
+            ];
+            $data_encode = json_encode($data);
+            $admin->createNotif($data_encode);
+            
+        }elseif($request->status == 'finish'){
+            $admin = Admin::find(1);
+            $data = [
+               'nama'=> Auth::user()->user_name,
+               'message'=>'Barang Telah Sampai ke Pelanggan!',
+               'id'=> $request->id,
+               'category' => 'canceled'
+           ];
+           $data_encode = json_encode($data);
+           $admin->createNotif($data_encode);
+    
+        }
         return redirect('transaksi_user/'.$request->id);
         
     }
