@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\ProductReview;
 use App\Models\Response;
+use App\Models\UserNotification;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Transaction;
@@ -77,6 +78,17 @@ class User extends Authenticatable implements MustVerifyEmail
             }
         }
         return $alrReviewd;
+    }
+
+    public function createNotifUser($data)
+    {
+        $notif = new UserNotification();
+        $notif->type = 'App\Notifications\AdminNotification';
+        $notif->notifiable_type = 'App\Models\User';
+        $notif->notifiable_id = $this->id;
+        $notif->data = $data;
+        $notif->read_at =null;
+        $notif->save();
     }
 
 }

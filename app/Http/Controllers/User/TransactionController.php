@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Courier;
+use App\Models\Admin;
 use App\Models\Cart;
 use App\Models\Products;
 use App\Models\Transaction;
@@ -107,6 +108,16 @@ class TransactionController extends Controller
                 }
             }
         }
+
+        $admin = Admin::find(1);
+        $data = [
+            'nama'=> Auth::user()->user_name,
+            'message'=>'membeli product!',
+            'id'=> $lastIdTransaction,
+            'category' => 'transaction'
+        ];
+        $data_encode = json_encode($data);
+        $admin->createNotif($data_encode);
 
         return redirect('transaksi')->withSuccess("Pesanan telah dibuat, Silahkan selesaikan pembayaran");
         

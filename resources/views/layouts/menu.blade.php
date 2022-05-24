@@ -11,16 +11,32 @@
           <a class="nav-link" href="{{ route('landing') }}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Produk</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Kategori</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="{{ route('charts') }}">Keranjang</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('transaksi') }}">Transaksi</a>
+        </li>
+        <li class="nav-item dropdown">  
+          <div class="dropdown">
+            @if (Auth::user())	
+            @php $user_notifikasi = App\Models\UserNotification::where('notifiable_id', Auth::user()->id)->where('read_at', NULL)->orderBy('created_at','desc')->get(); @endphp
+            @php $user_unRead = App\Models\UserNotification::where('notifiable_id', Auth::user()->id)->where('read_at', NULL)->orderBy('created_at','desc')->count(); @endphp
+            <a class="nav-link active dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-notify="{{$user_unRead}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              Notifikasi <span class="badge bg-danger">{{$user_unRead}}</span>
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            @forelse ($user_notifikasi as $notifikasi)
+            @php $notif = json_decode($notifikasi->data); @endphp
+            <a class="dropdown-item" href="{{ route('notifikasi', $notifikasi->id) }}" class="dropdown-item btnunNotif" data-num=""><small>[{{ $notif->nama }}] {{ $notif->message }}</small></a>
+            @empty
+            <a class="dropdown-item" href="#" data-num=""><small>Tidak ada notifikasi</small></a>
+            @endforelse
+            </div>
+            @else 
+            {{-- <a class="nav-link" href="#">Notifikasi</a> --}}
+            @endif
+          </div>
         </li>
         @if(Auth::check())
           <li class="nav-item dropdown">  

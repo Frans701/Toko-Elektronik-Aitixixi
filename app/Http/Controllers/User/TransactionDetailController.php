@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Courier;
 use App\Models\Cart;
 use App\Models\Products;
+use App\Models\Admin;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\ProductReview;
@@ -40,6 +41,18 @@ class TransactionDetailController extends Controller
                     'proof_of_payment' => $request->file('file')->store('file-image'),
                     'status' => 'unverified'
                 ]);
+                
+                //$user_data=User::find($user->id);
+                $admin = Admin::find(1);
+                $data = [
+                    'nama'=> Auth::user()->user_name,
+                    'message'=>'Verifikasi Pembayaran!',
+                    'id'=> $request->id,
+                    'category' => 'Transcation'
+                ];
+                $data_encode = json_encode($data);
+                $admin->createNotif($data_encode);
+                //notif admin---------------------------------------
             }
         }else{
             if($request->file('file')){
@@ -49,7 +62,7 @@ class TransactionDetailController extends Controller
             }
         }
 
-        return redirect('transaksi_detail/'.$request->id);
+        return redirect('transaksi_user/'.$request->id);
         
     }
 
@@ -61,7 +74,17 @@ class TransactionDetailController extends Controller
         
         $transaksi->update($data);
 
-        return redirect('transaksi_detail/'.$request->id);
+        $admin = Admin::find(1);
+        $data = [
+           'nama'=> Auth::user()->user_name,
+           'message'=>'Barang Telah Sampai ke Pelanggan!',
+           'id'=> $request->id,
+           'category' => 'canceled'
+       ];
+       $data_encode = json_encode($data);
+       $admin->createNotif($data_encode);
+
+        return redirect('transaksi_user/'.$request->id);
         
     }
 
@@ -79,6 +102,16 @@ class TransactionDetailController extends Controller
             'content' => $request->content
         ); 
         ProductReview::create($review);
+
+        $admin = Admin::find(1);
+          $data = [
+              'nama'=> Auth::user()->user_name,
+              'message'=>'seseorang mereview product!',
+              'id'=> $product_id,
+              'category' => 'review'
+          ];
+          $data_encode = json_encode($data);
+          $admin->createNotif($data_encode);
 
         return redirect()->back();
         

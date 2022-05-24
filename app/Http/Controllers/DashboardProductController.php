@@ -7,9 +7,11 @@ use App\Models\ProductCategoriesDetails;
 use App\Models\ProductImages;
 use Illuminate\Http\Request;
 use App\Models\Products;
+use App\Models\User;
 use App\Models\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class DashboardProductController extends Controller
 {
@@ -174,6 +176,18 @@ class DashboardProductController extends Controller
             'content' => $request->content
         ); 
         Response::create($review);
+
+        $review = DB::Table('product_reviews')->where('id',$id)->value('user_id');
+        $product_id= DB::Table('product_reviews')->where('id',$id)->first();
+        $user = User::find($review);
+        $data = [
+            'nama'=> 'Admin',
+            'message'=>'review anda direspon!',
+            'id'=> $product_id->product_id,
+            'category' => 'review'
+        ];
+        $data_encode = json_encode($data);
+        $user->createNotifUser($data_encode);
 
         return redirect()->back();
         

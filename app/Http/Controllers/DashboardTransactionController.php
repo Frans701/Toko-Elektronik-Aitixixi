@@ -6,8 +6,10 @@ use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\ProductReview;
 use App\Models\Response;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class DashboardTransactionController extends Controller
 {
@@ -106,6 +108,20 @@ class DashboardTransactionController extends Controller
         
         $transaksi->update($data);
 
+        $transaction = Transaction::find($request->id);
+        $tanggal = Carbon::now();
+        $user = User::find($transaction->user_id);
+
+        $data = [
+            'nama'=> 'Admin',
+            'message'=>'sudah tervirifikasi',
+            'id'=> $request->id,
+            'category' => 'transaction'
+        ];
+
+        $data_encode = json_encode($data);
+        $user->createNotifUser($data_encode);
+
         return redirect('/admin/transaction/'.$request->id.'/edit');
         
     }
@@ -117,6 +133,20 @@ class DashboardTransactionController extends Controller
         $transaksi = Transaction::find($request->id);
         
         $transaksi->update($data);
+
+        $transaction = Transaction::find($request->id);
+        $tanggal = Carbon::now();
+        $user = User::find($transaction->user_id);
+
+        $data = [
+            'nama'=> 'Admin',
+            'message'=>'barang dikirim',
+            'id'=> $request->id,
+            'category' => 'transaction'
+        ];
+
+        $data_encode = json_encode($data);
+        $user->createNotifUser($data_encode);
 
         return redirect('/admin/transaction/'.$request->id.'/edit');
         

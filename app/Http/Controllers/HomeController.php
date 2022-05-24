@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Products;
 use App\Models\ProductImages;
+use App\Models\UserNotification;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
@@ -37,5 +39,23 @@ class HomeController extends Controller
         $images = ProductImages::where('product_id','=',$id)->get();
 
         return view('homepage.detail_produk', compact('product', 'images'));
+    }
+
+    public function user_notif($id) 
+    {
+        $notification = UserNotification::find($id);
+        $notif = json_decode($notification->data);
+        
+        $date = Carbon::now('Asia/Makassar');
+        $baca= UserNotification::find($id);
+        $baca->read_at =$date;
+        $baca->update();
+
+        if ($notif->category == 'review') {
+            return redirect()->route('detail_produk',$notif->id);
+        } else{
+            return redirect()->route('transaksi_detail',$notif->id);
+        } 
+     
     }
 }

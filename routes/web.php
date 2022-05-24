@@ -34,6 +34,7 @@ Auth::routes();
 Auth::routes(['verify' => true]); //verifikasi email
 
 Route::get('/', [HomeController::class, 'index'])->name('landing');
+Route::get('/user/{id}', [HomeController::class, 'user_notif'])->name('notifikasi');
 Route::get('/detail_produk/{id}', [HomeController::class, 'detail_produk'])->name('detail_produk');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
@@ -49,7 +50,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/check_out/{ongkir}', [CheckOutController::class, 'index'])->name('check_out');
     Route::post('/pesan', [TransactionController::class, 'store']);
     Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi');
-    Route::get('/transaksi_detail/{id}', [TransactionDetailController::class, 'transaksi_detail'])->name('transaksi_detail');
+    Route::get('/transaksi_user/{id}', [TransactionDetailController::class, 'transaksi_detail'])->name('transaksi_detail');
     Route::post('/transaksi/pembayaran', [TransactionDetailController::class, 'pembayaran'])->name('pembayaran');
     Route::post('/transaksi/update', [TransactionDetailController::class, 'update'])->name('update');
     Route::post('/transaksi/review/{product_id}', [TransactionDetailController::class, 'review'])->name('review');
@@ -61,11 +62,13 @@ Route::post('actionlogin', [App\Http\Controllers\Admin\LoginControllerAdmin::cla
 Route::get('logoutAdmin', [App\Http\Controllers\Admin\LoginControllerAdmin::class, 'logoutAdmin'])->name('logoutadmin');
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard'])->name ('dashboard');
-  });
+    Route::get('/notif/{id}', [App\Http\Controllers\DashboardController::class, 'admin_notif'])->name('notification');
+});
 Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
   Route::resource('/products', DashboardProductController::class);
+  Route::get('/products/{id}', [DashboardProductController::class, 'show'])->name('productdetail');
   Route::post('/respons/{id}', [DashboardProductController::class, 'respons'])->name('respons');
 });
 Auth::routes();
@@ -92,6 +95,7 @@ Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
   Route::resource('/transaction', DashboardTransactionController::class);
+  Route::get('/transaksi_detail/{id}', [DashboardTransactionController::class, 'edit'])->name('transaksi-detail');
   Route::post('/verified', [DashboardTransactionController::class, 'verified'])->name('verified');
   Route::post('/kirim', [DashboardTransactionController::class, 'kirim'])->name('kirim');
 });
