@@ -1,3 +1,16 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    setInterval(() => {
+      var dt = new Date();
+      // $("#autodiv").text(dt.getSeconds());
+      $("#lonceng_active_user").load(location.href + " #lonceng_user");
+      $("#notif_user_active").load(location.href + " #notif_user");
+    }, 1000);
+  });
+</script>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
   <div class="container">
     <a class="navbar-brand" href="/"><strong>Aitixixi Electronics</strong></a>
@@ -22,13 +35,24 @@
             @php $user_notifikasi = App\Models\UserNotification::where('notifiable_id', Auth::user()->id)->where('read_at', NULL)->orderBy('created_at','desc')->get(); @endphp
             @php $user_unRead = App\Models\UserNotification::where('notifiable_id', Auth::user()->id)->where('read_at', NULL)->orderBy('created_at','desc')->count(); @endphp
             <a class="nav-link active dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-notify="{{$user_unRead}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              Notifikasi <span class="badge bg-danger">{{$user_unRead}}</span>
+              Notifikasi 
+              <div class="d-none">
+                <span id="lonceng_user" class="badge bg-danger">{{$user_unRead}}</span>
+              </div> 
+              <span id="lonceng_active_user" class=""></span>
             </a>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             @forelse ($user_notifikasi as $notifikasi)
             @php $notif = json_decode($notifikasi->data); @endphp
-            <a class="dropdown-item" href="{{ route('notifikasi', $notifikasi->id) }}" class="dropdown-item btnunNotif" data-num=""><small>[{{ $notif->nama }}] {{ $notif->message }}</small></a>
+            <div class="d-none">
+              <a id="notif_user" class="dropdown-item" href="{{ route('notifikasi', $notifikasi->id) }}" class="dropdown-item btnunNotif" data-num="">
+                <small>[{{ $notif->nama }}] {{ $notif->message }}</small>
+              </a>
+            </div>
+            <div id="notif_user_active">
+
+            </div>
             @empty
             <a class="dropdown-item" href="#" data-num=""><small>Tidak ada notifikasi</small></a>
             @endforelse
