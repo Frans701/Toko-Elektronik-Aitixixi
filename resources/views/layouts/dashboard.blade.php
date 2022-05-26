@@ -33,18 +33,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" type="text/css" href="{{ asset('fancyapps/source/jquery.fancybox.css?v=2.1.5') }}" media="screen">
   <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
   <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      setInterval(() => {
+        var dt = new Date();
+        // $("#autodiv").text(dt.getSeconds());
+        $("#lonceng_active").load(location.href + " #lonceng");
+        $("#notif_admin_active").load(location.href + " #notif_admin");
+      }, 1000);
+    });
+  </script>
 
   <script type="text/javascript">
     $(document).ready(function(){
       $(".perbesar").fancybox();
     });
   </script>
-
   <style>
       .slider-img{
         width: 100%;
         height: 300px;
         object-fit: cover;  
+      }
+
+      .test{
+        background-color: aqua;
       }
 
       canvas {
@@ -76,26 +91,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav d-flex justify-content-between w-100">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Home</a>
-      </li>
+      <div>
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+      </div>
       <ul class="navbar-nav  justify-content-end me-sm-4">   
         @php $admin_unRead = App\Models\AdminNotification::where('notifiable_id',Auth::user()->id)->where('read_at', NULL)->orderBy('created_at','desc')->count(); @endphp         
-          <li class="nav-item dropdown d-flex align-items-center">
+          <li id="test" class="nav-item dropdown d-flex align-items-center">
             <a href="javascript:;" class="nav-link text-body font-weight-bold px-0" id="dropdownProfileButton" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa fa-bell me-sm-1"></i>
-              <span class="badge bg-danger">{{$admin_unRead}}</span>
-              <span class="d-sm-inline d-none"></span>
+              <div class="d-none">
+                <div id="lonceng">
+                  <i class="fa fa-bell me-sm-1"></i>
+                  <span class="badge bg-danger">{{$admin_unRead}}</span>
+                  <span class="d-sm-inline d-none"></span>
+                </div>
+              </div>
+              <div id="lonceng_active">
+
+              </div>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end px-2 me-sm-n4" aria-labelledby="dropdownProfileButton">
+            <ul id="list" class="dropdown-menu dropdown-menu-end px-2 me-sm-n4" aria-labelledby="dropdownProfileButton">
               @php $admin_notifikasi = App\Models\AdminNotification::where('notifiable_id',Auth::user()->id)->where('read_at', NULL)->orderBy('created_at','desc')->get(); @endphp
               @forelse ($admin_notifikasi as $notifikasi)
               @php $notif = json_decode($notifikasi->data); @endphp
-              <li>
-                  <a href="{{ route('notification', $notifikasi->id) }}" class="dropdown-item btnunNotif" data-num=""><small> [User: {{ $notif->nama }}] {{ $notif->message }}</small></a>
+              <div class="d-none">
+                <li id="notif_admin">
+                    <a href="{{ route('notification', $notifikasi->id) }}" class="dropdown-item btnunNotif" data-num=""><small> [User: {{ $notif->nama }}] {{ $notif->message }}</small></a>
+                </li>
+              </div>
+              <li id="notif_admin_active">
+                
               </li>
               @empty
                   <li>
