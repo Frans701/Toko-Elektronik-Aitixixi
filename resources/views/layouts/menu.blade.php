@@ -43,6 +43,9 @@
             </a>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              @if(!is_null($user_notifikasi))
+                <a class="dropdown-item" href="{{ route('read_all') }}" data-num=""><small>Read all</small></a>
+              @endif
             @forelse ($user_notifikasi as $notifikasi)
             @php $notif = json_decode($notifikasi->data); @endphp
             <div class="d-none">
@@ -51,7 +54,6 @@
               </a>
             </div>
             <div id="notif_user_active">
-
             </div>
             @empty
             <a class="dropdown-item" href="#" data-num=""><small>Tidak ada notifikasi</small></a>

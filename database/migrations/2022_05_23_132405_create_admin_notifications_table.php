@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->string('notifiable_type');
-            $table->foreignId('notifiable_id');
+            $table->integer('notifiable_id')->unsigned()->onUpdate();
             $table->text('data');
-            $table->timestamp('read_at');
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }

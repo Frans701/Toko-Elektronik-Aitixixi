@@ -58,4 +58,20 @@ class HomeController extends Controller
         } 
      
     }
+
+    public function read_all() 
+    {
+        $date = Carbon::now('Asia/Makassar');
+        $baca= UserNotification::all();
+        //dd($baca);
+        foreach($baca as $bacas){
+            if($bacas->read_at == ''){
+                $read = UserNotification::find($bacas->id);
+                $read->read_at =$date;
+                $read->update();
+            }
+        }
+
+        return redirect()->back();
+    }
 }

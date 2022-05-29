@@ -80,4 +80,20 @@ class DashboardController extends Controller
         } 
         
     }
+
+    public function read_all_admin() 
+    {
+        $date = Carbon::now('Asia/Makassar');
+        $baca= AdminNotification::all();
+        //dd($baca);
+        foreach($baca as $bacas){
+            if($bacas->read_at == ''){
+                $read = AdminNotification::find($bacas->id);
+                $read->read_at =$date;
+                $read->update();
+            }
+        }
+
+        return redirect()->back();
+    }
 }

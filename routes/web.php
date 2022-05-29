@@ -35,6 +35,7 @@ Auth::routes(['verify' => true]); //verifikasi email
 
 Route::get('/', [HomeController::class, 'index'])->name('landing');
 Route::get('/user/{id}', [HomeController::class, 'user_notif'])->name('notifikasi');
+Route::get('/read_all', [HomeController::class, 'read_all'])->name('read_all');
 Route::get('/detail_produk/{id}', [HomeController::class, 'detail_produk'])->name('detail_produk');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
@@ -61,8 +62,9 @@ Route::get('/admin', [App\Http\Controllers\Admin\LoginControllerAdmin::class, 'l
 Route::post('actionlogin', [App\Http\Controllers\Admin\LoginControllerAdmin::class, 'action'])->name('actionlogin');
 Route::get('logoutAdmin', [App\Http\Controllers\Admin\LoginControllerAdmin::class, 'logoutAdmin'])->name('logoutadmin');
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
-    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard'])->name ('dashboard');
-    Route::get('/notif/{id}', [App\Http\Controllers\DashboardController::class, 'admin_notif'])->name('notification');
+  Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard'])->name ('dashboard');
+  Route::get('/notif/{id}', [App\Http\Controllers\DashboardController::class, 'admin_notif'])->name('notification');
+  Route::get('/read_all_admin', [App\Http\Controllers\DashboardController::class, 'read_all_admin'])->name('read_all_admin');
 });
 Auth::routes();
 

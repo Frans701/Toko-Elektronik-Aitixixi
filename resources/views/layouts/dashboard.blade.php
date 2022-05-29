@@ -113,6 +113,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul id="list" class="dropdown-menu dropdown-menu-end px-2 me-sm-n4" aria-labelledby="dropdownProfileButton">
               @php $admin_notifikasi = App\Models\AdminNotification::where('notifiable_id',Auth::user()->id)->where('read_at', NULL)->orderBy('created_at','desc')->get(); @endphp
+              @if(!is_null($admin_notifikasi))
+                <a class="dropdown-item" href="{{ route('read_all_admin') }}" data-num=""><small>Read all</small></a>
+              @endif
               @forelse ($admin_notifikasi as $notifikasi)
               @php $notif = json_decode($notifikasi->data); @endphp
               <div class="d-none">
